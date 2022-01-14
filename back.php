@@ -10,6 +10,7 @@
     <link href="css/css.css" rel="stylesheet">
     <link href="css/s2.css" rel="stylesheet" type="text/css">
     <script src="js/jquery-1.9.1.min.js"></script>
+    <script src="js/js.js"></script>
 </head>
 
 <body>
@@ -30,7 +31,29 @@
         </div>
         <div id="mm">
             <?php
-            include "back/main.php";
+            if(!empty($_POST)){
+                if($_POST['acc']=='admin' && $_POST['pw']=='1234'){
+                    $_SESSION['login']='admin';
+                }else{
+                    echo "<div class='ct' style='color:red'>帳號或密碼錯誤</div>";
+                }
+            }
+
+            if(isset($_SESSION['login'])){
+                include "back/nav.php";
+
+                $do=$_GET['do']??'';
+                $file="back/".$do.".php";
+                if(file_exists($file)){
+                  include $file;
+                }else{
+                  include "back/main.php";
+                }                
+
+            }else{
+                include "back/login.php";
+            }
+
             ?>
 
         </div>
